@@ -1,9 +1,27 @@
+import os
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-import uvicorn
 from pydantic import BaseModel
+from typing import Any
 
-app = FastAPI()
+from services.auto_update import ensure_latest 
+from toolboxes.run_stimpyper import run_stimpyper
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Toggle via env var to be safe in prod: AUTO_UPDATE=1
+    if os.getenv("AUTO_UPDATE", "0") == "1":
+        # Tries to update StimPyPer to latest main, restarts on success
+        _ = ensure_latest(
+            repo_url="https://github.com/Calvinwhow/StimPyPer.git",
+            branch="main",
+        )
+    yield
+    # (optional) shutdown hooks
+
+app = FastAPI(lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
@@ -15,14 +33,27 @@ app.add_middleware(
 class Message(BaseModel):
     message: str
 
+class StimPyPerRequest(BaseModel):
+    electrode_data_path: str
+    nifti_path: str
+    output_path: str
+
 @app.get("/api/hello")
 def read_root():
     return {"message": "Hello from FastAPI!"}
 
 @app.post("/api/update-message")
 def update_message(msg: Message):
-    # Here you can process the message as needed
     return {"message": f"Received: {msg.message}"}
 
+@app.post("/api/run-stimpyper")
+def execute_stimpyper(request: StimPyPerRequest):
+    print(f"Running StimPyPer with electrode_data_path: {request.electrode_data_path}, nifti_path: {request.nifti_path}, output_path: {request.output_path}")
+    run_stimpyper(request.electrode_data_path, request.nifti_path, request.output_path)
+    return {"message": "StimPyPer run completed"}
+
 if __name__ == "__main__":
+    # Note: for auto-update + restart to work cleanly, avoid --reload here.
+    # Use a supervisor (Electron spawns the process; or systemd/PM2/Docker).
+    import uvicorn
     uvicorn.run("main:app", host="127.0.0.1", port=8000)
