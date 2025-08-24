@@ -1,13 +1,13 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-// import './App.css';
+import './styling/Sidebar.css';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import { useElectrodeState } from './hooks/useElectrodeState';
 import ElectrodeManager from './components/ElectrodeManager';
 import LoadingSpinner from './components/LoadingSpinner';
 
 function Programmer({ patient }) {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const type = 'leaddbs';
   const mode = 'standalone';
   const timeline = 'optimizer';
@@ -27,9 +27,9 @@ function Programmer({ patient }) {
 
 
   // Handle back navigation
-  // const handleBack = () => {
-  //   navigate(-1);
-  // };
+  const handleBack = () => {
+    navigate(-1);
+  };
 
   if (isLoading) {
     return <LoadingSpinner />;
@@ -39,7 +39,7 @@ function Programmer({ patient }) {
     return (
       <div className="error-container">
         <h3>No patient data available</h3>
-        {/* <button onClick={handleBack}>Go Back</button> */}
+        <button onClick={handleBack}>Go Back</button>
       </div>
     );
   }
@@ -86,7 +86,7 @@ function Programmer({ patient }) {
         {mode !== 'stimulate' && (
           <button
             className="back-button"
-            // onClick={handleBack}
+            onClick={handleBack}
             style={{
               width: '100px',
               boxShadow: '0 4px 8px rgba(0, 0, 0, 0.4)',

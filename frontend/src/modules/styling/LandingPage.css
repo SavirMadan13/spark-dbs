@@ -1,0 +1,59 @@
+.landing-page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #f5f5f5;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.landing-page-title {
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.landing-page-description {
+  font-size: 1.2rem;
+  color: #666;
+  margin-bottom: 30px;
+  text-align: center;
+  max-width: 600px;
+}
+
+.landing-page-button {
+  font-size: 1rem;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.landing-page-button:hover {
+  background-color: #0056b3;
+}
+
+.logo-container {
+  margin-bottom: 20px;
+}
+
+.rotating-logo {
+  width: 150px;
+  height: auto;
+  animation: rotate 10s linear infinite;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
