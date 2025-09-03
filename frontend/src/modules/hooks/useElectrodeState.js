@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { processTimelines, createInitialState } from '../services/dataProcessing';
 import { getIPGFromElectrode } from '../constants/electrodeModelInterpreter';
 
-export const useElectrodeState = (patient, timeline, type, mode) => {
+export const useElectrodeState = (patient, timeline, type, mode, v) => {
   const [patientStates, setPatientStates] = useState({});
   const [patients, setPatients] = useState([]);
   const [selectedPatient, setSelectedPatient] = useState(null);
@@ -69,7 +69,7 @@ export const useElectrodeState = (patient, timeline, type, mode) => {
         setTotalS(stimulationData.S);
 
         // Process the timelines and set initial states
-        const initialStates = processTimelines(timelineOutput, stimulationData, patient, timeline);
+        const initialStates = processTimelines(timelineOutput, stimulationData, patient, timeline, v);
         setPatientStates(initialStates);
         setPatients(Object.keys(initialStates));
 

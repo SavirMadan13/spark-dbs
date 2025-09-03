@@ -9,6 +9,7 @@ from typing import Any
 from services.auto_update import ensure_latest 
 from toolboxes.run_stimpyper import run_stimpyper
 from electrode import setup_app
+from helpers import get_stimparams
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -53,8 +54,9 @@ def update_message(msg: Message):
 @app.post("/api/run-stimpyper")
 def execute_stimpyper(request: StimPyPerRequest):
     print(f"Running StimPyPer with electrode_data_path: {request.electrode_data_path}, nifti_path: {request.nifti_path}, output_path: {request.output_path}")
-    run_stimpyper(request.electrode_data_path, request.nifti_path, request.output_path)
-    return {"message": "StimPyPer run completed"}
+    # run_stimpyper(request.electrode_data_path, request.nifti_path, request.output_path)
+    v = get_stimparams(request.output_path)
+    return {"message": "StimPyPer run completed", "v": v}
 
 @app.post("/api/retrieve-electrode-data")
 def retrieve_electrode_data(request: RetrieveElectrodeDataRequest):

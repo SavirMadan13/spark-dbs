@@ -118,6 +118,21 @@ label {
   background-color: #0056b3;
 }
 
+.Sidebar {
+  position: relative;
+  margin-top: 100px;
+  margin-bottom: -400px;
+  margin-left: 70px;
+  z-index: 2;
+  width: 400px;
+}
+
+.electrode-interface {
+  position: relative;
+  z-index: 1;
+}
+
+
 /* .tabs-container {
   justify-content: center;
 } */

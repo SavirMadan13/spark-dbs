@@ -1,17 +1,22 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import './styling/Sidebar.css';
-// import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { useElectrodeState } from './hooks/useElectrodeState';
 import ElectrodeManager from './components/ElectrodeManager';
 import LoadingSpinner from './components/LoadingSpinner';
 
-function Programmer({ patient }) {
+function Programmer({ patient}) {
+
   const navigate = useNavigate();
   const type = 'leaddbs';
   const mode = 'standalone';
   const timeline = 'optimizer';
-  // Use custom hooks for state management
+  const location = useLocation();
+  const v = location.state.v;
+  console.log('OutputV From StimPyPer', v);
+  // Use custom hook for state management
   const {
     patientStates,
     patients,
@@ -23,7 +28,7 @@ function Programmer({ patient }) {
     updatePatientState,
     navigateToPatient,
     updateElectrodeSelection,
-  } = useElectrodeState(patient, timeline, type, mode);
+  } = useElectrodeState(patient, timeline, type, mode, v);
 
 
   // Handle back navigation
@@ -77,6 +82,7 @@ function Programmer({ patient }) {
             // Export functionality
             patientStates={patientStates}
             totalS={totalS}
+            v={v}
           />
         )}
       </div>

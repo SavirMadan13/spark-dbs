@@ -1,37 +1,58 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { Container, Form, Button } from 'react-bootstrap';
 import '../styling/ParameterInput.css';
 import Navbar from './Navbar';
+import LoadingSpinner from './LoadingSpinner';
 
-function ParameterInput({ onFilePathsChange }) {
+function ParameterInput({ filePaths, onFilePathsChange }) {
 
   const navigate = useNavigate();
-
+  const [isLoading, setIsLoading] = useState(false);
   const handleBack = () => {
     navigate(-1);
   };
   
-  const [electrodeDataPath, setElectrodeDataPath] = useState('');
-  const [niftiPath, setNiftiPath] = useState('');
-  const [outputPath, setOutputPath] = useState('');
+  const [electrodeDataPath, setElectrodeDataPath] = useState(filePaths.electrodeDataPath);
+  const [niftiPath, setNiftiPath] = useState(filePaths.niftiPath);
+  const [outputPath, setOutputPath] = useState(filePaths.outputPath);
 
-  const handleSubmit = (e) => {
+  const runStimpyper = async () => {
+    setIsLoading(true);
+    const res = await fetch('http://localhost:8000/api/run-stimpyper', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        electrode_data_path: electrodeDataPath,
+        nifti_path: niftiPath,
+        output_path: outputPath
+      }),
+    });
+    setIsLoading(false);
+    const data = await res.json(); // Parse the response as JSON
+    return data;
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     onFilePathsChange({
       electrodeDataPath,
       niftiPath,
       outputPath,
     });
-    navigate('/programmer');
+    const data = await runStimpyper();
+    navigate('/programmer', { state: { v: data.v } });  
   };
 
   return (
-    <Container style={{ marginTop: '2rem', marginLeft: '10rem', marginRight: '10rem' }}>
+    <Container style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       <Navbar text="Setup File Paths" color1="375D7A" />
       <Form onSubmit={handleSubmit}>
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '1rem' }}>
-          <Form.Group controlId="formFilePath1" style={{ flex: 1, marginRight: '1rem' }}>
+          <Form.Group controlId="formFilePath1" style={{ flex: 1}}>
             <Form.Label>Reconstruction file</Form.Label>
             <Form.Control
               type="text"
@@ -41,7 +62,7 @@ function ParameterInput({ onFilePathsChange }) {
             />
           </Form.Group>
 
-          <Form.Group controlId="formFilePath2" style={{ flex: 1, marginRight: '1rem' }}>
+          <Form.Group controlId="formFilePath2" style={{ flex: 1}}>
             <Form.Label>Target NIfTI</Form.Label>
             <Form.Control
               type="text"
@@ -84,8 +105,9 @@ function ParameterInput({ onFilePathsChange }) {
           </Button>
           <Button 
             className="back-button" 
+            onClick={handleSubmit}
             style={{ 
-              width: '100px',
+              width: '110px',
               boxShadow: '0 4px 8px rgba(0, 0, 0, 0.4)',
               backgroundColor: 'white',
               color: 'black',
@@ -96,10 +118,12 @@ function ParameterInput({ onFilePathsChange }) {
               border: 'none',
               cursor: 'pointer',
             }} 
-            disabled={!(electrodeDataPath && niftiPath && outputPath)}
+            // disabled={!(electrodeDataPath && niftiPath && outputPath)}
           >
-            →
+            {/* → */}
+            Optimize
           </Button>
+          {isLoading && <LoadingSpinner />}
         </div>
 
       </Form>

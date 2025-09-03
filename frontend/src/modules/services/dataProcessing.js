@@ -1,9 +1,10 @@
 import { getElectrodeValue, getIPGFromElectrode, getVisualizationModelLabel } from '../constants/electrodeModelInterpreter';
 import electrodeModels from '../utils/electrodeModels.json';
 import initializeS from './InitializeS';
+import buildS from './BuildS';
 
 // Default state configuration
-export const createInitialState = (electrode = '', ipg = '') => ({
+export const createInitialState = (electrode = '', ipg = '', v) => ({
   IPG: ipg,
   leftElectrode: electrode,
   rightElectrode: electrode,
@@ -176,7 +177,7 @@ export const processImportedStimulationData = (jsonData, electrodeModel) => {
 };
 
 // Timeline processing
-export const processTimelines = (timelineOutput, stimulationData, patient, timeline) => {
+export const processTimelines = (timelineOutput, stimulationData, patient, timeline, v) => {
   console.log('Processing timelines:', timelineOutput);
   console.log('Processing stimulation data:', stimulationData);
   
@@ -187,8 +188,9 @@ export const processTimelines = (timelineOutput, stimulationData, patient, timel
     if (!timelineOutput[timeline]) {
       const electrodes = patient.elmodel;
       const outputElectrode = getElectrodeValue(electrodes);
-      const patientData = initializeS(timeline, electrodeModels[outputElectrode].numel);
-      
+      let patientData = initializeS(timeline, electrodeModels[outputElectrode].numel);
+      console.log('Processing v:', v[0], v[1], patientData);
+      patientData = buildS(v[0], v[1], patientData);
       const processedS = patientData 
         ? processImportedStimulationData(patientData, electrodes)
         : getDefaultProcessedData(electrodes);

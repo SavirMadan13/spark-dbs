@@ -6,28 +6,17 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
 
+  // const [electrodeDataPath, setElectrodeDataPath] = useState('');
+  // const [niftiPath, setNiftiPath] = useState('');
+  // const [outputPath, setOutputPath] = useState('');
+
   const [filePaths, setFilePaths] = useState({
     electrodeDataPath: '',
     niftiPath: '',
     outputPath: '',
   });
+
   const [patient, setPatient] = useState(null);
-
-  const runStimpyper = async () => {
-    const res = await fetch('http://localhost:8000/api/run-stimpyper', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        electrode_data_path: '/Users/savirmadan/Documents/Localizations/BrighamReprogramming/derivatives/leaddbs/sub-CbctDbs0157/reconstruction/sub-CbctDbs0157_desc-reconstruction.mat',
-        nifti_path: '/Users/savirmadan/Documents/OptimizerAnalysis/targets/final/multimodal_tremormap_BIDMC_gait_agreement_map.nii',
-        output_path: '/Users/savirmadan/Downloads/stimpyper_testing'
-      }),
-    });
-
-    if (!res.ok) throw new Error('Failed to run StimPyPer');
-  };
 
   const retrieveElectrodeData = async (electrode_data_path) => {
     try {
@@ -60,7 +49,7 @@ function App() {
       <div style={{ padding: '2rem' }}>
         <Routes>
           <Route path="/" element={<LandingPage />} />
-          <Route path="/parameter-input" element={<ParameterInput onFilePathsChange={handleFilePathsChange} />} />
+          <Route path="/parameter-input" element={<ParameterInput filePaths={filePaths} onFilePathsChange={handleFilePathsChange} />} />
           <Route path="/programmer" element={<Programmer patient={patient} />} />
         </Routes>
       </div>

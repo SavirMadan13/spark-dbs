@@ -13,7 +13,6 @@ import ToggleButton from 'react-bootstrap/ToggleButton';
 import Tooltip from 'react-bootstrap/Tooltip';
 
 import '../styling/Electrode.css';
-
 import { ReactComponent as IPG1 } from '../utils/images/electrode_design/IPG.svg';
 import { ReactComponent as NewBottomContact } from '../utils/images/electrode_design/BottomContact.svg';
 import { ReactComponent as LeftContact } from '../utils/images/electrode_design/LeftContact.svg';
@@ -3649,7 +3648,7 @@ function Electrode({
           {/* <Button onClick={handleOpenViewer} style={{ backgroundColor: 'green' }}>
           {showViewer ? 'Close Viewer' : 'Open Viewer'}
         </Button> */}
-          <Button
+          {/* <Button
             onClick={() => {
               handleOpenViewer();
               // if (!showViewer) {
@@ -3674,7 +3673,7 @@ function Electrode({
             }}
           >
             {showViewer ? 'Close Viewer' : 'Open Viewer'}
-          </Button>
+          </Button> */}
         </div>
         <div className="electrode-container">
           <div className="container2">

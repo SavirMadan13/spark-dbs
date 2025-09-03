@@ -33,6 +33,6 @@ export default function initializeS(label, numContacts) {
   S.sources = [1, 2, 3, 4];
   S.volume = [];
   S.ver = '2.0';
-
   return S;
 }
+

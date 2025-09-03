@@ -6,7 +6,7 @@ function LoadingSpinner() {
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      height: '50vh',
+      // height: '50vh',
       flexDirection: 'column',
     }}>
       <div style={{

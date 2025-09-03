@@ -10,5 +10,5 @@ def run_stimpyper(electrode_data_path, nifti_path, output_path):
         nifti_path=nifti_path,
         output_path=output_path
     )
-    processor.run()
+    processor.multistart()
 
