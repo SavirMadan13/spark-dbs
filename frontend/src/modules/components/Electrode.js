@@ -28,7 +28,7 @@ import { ReactComponent as RightButton } from '../utils/images/buttons/RightButt
 import { ReactComponent as SplitEvenButton } from '../utils/images/buttons/SplitEvenButton.svg';
 
 import ContactParameters from './ContactParameters';
-// import { windowUtils } from '../../../utils/fileSystem';
+import { windowUtils } from '../services/windowUtils';
 
 function Electrode({
   name,
@@ -82,9 +82,9 @@ function Electrode({
     setTogglePosition(newTogglePosition);
   }, []);
 
-  // useEffect(() => {
-  //   windowUtils.setZoomLevel(70); // This will zoom out to 70%
-  // }, []);
+  useEffect(() => {
+    windowUtils.setZoomLevel(70); // This will zoom out to 70%
+  }, []);
 
   const parseEtageidx = (etageidx) => {
     return etageidx.map((levelStr) => {
@@ -159,7 +159,7 @@ function Electrode({
         const face = newFace[contactNum];
         newLevel[contactNum] = parseFloat(levelIndex) + 1;
         if (face === 'center' || face === 'all') {
-          if (elspec.tipiscontact === 1 && contactNum === 1) {
+          if (contactNum === 1) {
             console.log(elspec.tipiscontact);
             centerColumn.push(
               <NewBottomContact key={contactNum} level={levelIndex + 1} />,
@@ -186,11 +186,11 @@ function Electrode({
         }
       });
     });
-  if (elspec.tipiscontact === 0) {
-    centerColumn.push(
-      <NewBottomContact key="tail" fill="rgb(27, 27, 27)" />,
-    );
-  }
+  // if (elspec.tipiscontact === 0) {
+  //   centerColumn.push(
+  //     <NewBottomContact key="tail" fill="rgb(27, 27, 27)" />,
+  //   );
+  // }
 
   const svgs = centerColumn;
 

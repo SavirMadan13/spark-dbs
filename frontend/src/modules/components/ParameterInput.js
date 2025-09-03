@@ -1,12 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import { Container, Form, Button } from 'react-bootstrap';
 import '../styling/ParameterInput.css';
 import Navbar from './Navbar';
 import LoadingSpinner from './LoadingSpinner';
+import { windowUtils } from '../services/windowUtils';
 
 function ParameterInput({ filePaths, onFilePathsChange }) {
+
+  useEffect(() => {
+    windowUtils.setZoomLevel(100); // This will zoom out to 70%
+  }, []);
 
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
@@ -48,10 +53,10 @@ function ParameterInput({ filePaths, onFilePathsChange }) {
   };
 
   return (
-    <Container style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    <Container style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       <Navbar text="Setup File Paths" color1="375D7A" />
       <Form onSubmit={handleSubmit}>
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '1rem' }}>
+        <div style={{ position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '1rem' }}>
           <Form.Group controlId="formFilePath1" style={{ flex: 1}}>
             <Form.Label>Reconstruction file</Form.Label>
             <Form.Control

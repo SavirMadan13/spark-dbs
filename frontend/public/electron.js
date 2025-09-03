@@ -143,7 +143,7 @@ function createWindow() {
 
   if (isDev) {
     win.loadURL('http://localhost:3000');
-    win.webContents.openDevTools({ mode: 'detach' });
+    // win.webContents.openDevTools({ mode: 'detach' });
   } else {
     win.loadFile(path.join(process.resourcesPath, 'frontend', 'index.html'));
   }
