@@ -18,3 +18,5 @@ scipy
 pandas
 nilearn
 h5py
+python-multipart
+stim-pyper @ git+https://github.com/Calvinwhow/StimPyPer.git@main

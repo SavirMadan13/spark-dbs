@@ -54,7 +54,7 @@ def update_message(msg: Message):
 @app.post("/api/run-stimpyper")
 def execute_stimpyper(request: StimPyPerRequest):
     print(f"Running StimPyPer with electrode_data_path: {request.electrode_data_path}, nifti_path: {request.nifti_path}, output_path: {request.output_path}")
-    # run_stimpyper(request.electrode_data_path, request.nifti_path, request.output_path)
+    run_stimpyper(request.electrode_data_path, request.nifti_path, request.output_path)
     v = get_stimparams(request.output_path)
     return {"message": "StimPyPer run completed", "v": v}
 
