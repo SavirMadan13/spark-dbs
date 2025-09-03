@@ -3,6 +3,7 @@
 ## Getting Started
 
 ### 1. Clone the Repository
+```bash
 git clone https://github.com/your-username/spark-dbs.git
 
 ### 2. Navigate to frontend directory
