@@ -77,7 +77,11 @@ function createWindow() {
     win.loadURL('http://localhost:3000');
     // win.webContents.openDevTools({ mode: 'detach' });
   } else {
-    win.loadFile(path.join(process.resourcesPath, 'frontend', 'index.html'));
+    // In production, load from the build directory that electron-builder packages
+    // Since build/** is included in files, it should be relative to the app directory
+    const indexPath = path.join(__dirname, '..', 'build', 'index.html');
+    log('Loading frontend from:', indexPath);
+    win.loadFile(indexPath);
   }
 }
 
