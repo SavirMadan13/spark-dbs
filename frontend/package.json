@@ -26,8 +26,14 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "build-backend": "cd ../backend && python setup.py build",
-    "package": "npm run build && electron-builder"
+    "build-backend": "cd ../backend && python3 build_backend.py",
+    "build-frontend": "npm run build",
+    "build-all": "npm run build-backend && npm run build-frontend",
+    "package": "npm run build-all && electron-builder",
+    "package-win": "npm run build-all && electron-builder --win",
+    "package-mac": "npm run build-all && electron-builder --mac",
+    "package-linux": "npm run build-all && electron-builder --linux",
+    "clean": "rimraf dist build && cd ../backend && rimraf dist build __pycache__"
   },
   "build": {
     "appId": "com.example.myapp",
@@ -37,12 +43,13 @@
       "public/index.html",
       "public/electron.js",
       "public/preload.js",
-      "src/**/*"
+      "node_modules/**/*"
     ],
     "extraResources": [
       {
-        "from": "../backend/dist",
-        "to": "backend"
+        "from": "../backend/dist/",
+        "to": "backend/",
+        "filter": ["**/*"]
       }
     ],
     "directories": {
@@ -50,10 +57,18 @@
       "output": "dist"
     },
     "mac": {
-      "target": "dmg"
+      "target": "dmg",
+      "category": "public.app-category.productivity"
     },
     "win": {
       "target": "nsis"
+    },
+    "linux": {
+      "target": "AppImage"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
     }
   },
   "eslintConfig": {
@@ -79,6 +94,7 @@
     "cross-env": "^7.0.3",
     "electron": "^36.2.1",
     "electron-builder": "^26.0.12",
+    "rimraf": "^5.0.5",
     "wait-on": "^8.0.3"
   }
 }
