@@ -38,7 +38,15 @@ a = Analysis(
         'pydantic.json',
         # Scientific computing packages
         'numpy',
+        'numpy.testing',
         'scipy',
+        'scipy.sparse',
+        'scipy.sparse._base',
+        'scipy.sparse._sputils',
+        'scipy._lib',
+        'scipy._lib._util',
+        'scipy._lib._array_api',
+        'scipy._lib.array_api_compat.numpy',
         'pandas',
         'scikit-learn',
         'sklearn',
@@ -46,6 +54,9 @@ a = Analysis(
         'sklearn.neighbors.typedefs',
         'sklearn.neighbors.quad_tree',
         'sklearn.tree._utils',
+        # Core modules that scipy/numpy may need
+        'unittest',
+        'unittest.mock',
         'nibabel',
         'nilearn',
         'h5py',
@@ -67,7 +78,7 @@ a = Analysis(
         'matplotlib',  # Exclude if not needed to reduce size
         'tkinter',
         'test',
-        'unittest',
+        # 'unittest',  # Don't exclude unittest as numpy/scipy needs it
         'pdb',
         'doctest',
     ],
